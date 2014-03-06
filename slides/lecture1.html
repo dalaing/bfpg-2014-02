@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Dave Laing" />
+  <title>The Yorgey Lectures - Part 1</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.min.css"/>
+    <style type="text/css">code{white-space: pre;}</style>
+    <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+    </style>
+    <link rel="stylesheet" href="reveal.js/css/theme/simple.css" id="theme">
+  <link rel="stylesheet" media="print" href="reveal.js/css/print/pdf.css" />
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">The Yorgey Lectures - Part 1</h1>
+    <h2 class="author">Dave Laing</h2>
+    <h3 class="date"></h3>
+</section>
+
+<section class="slide level1">
+
+<p>This is based on a university course run by Brent Yorgey at the Univesity of Pennsylvania.</p>
+<p>It is great.</p>
+<p>There are awesome homework problems.</p>
+</section>
+<section id="what-is-haskell" class="slide level1">
+<h1>What is Haskell?</h1>
+<ul>
+<li>Functional</li>
+<li>Pure</li>
+<li>Lazy</li>
+<li>Statically typed</li>
+</ul>
+</section>
+<section id="haskell-is-functional" class="slide level1">
+<h1>Haskell is functional</h1>
+<p>Functions are values, exactly the same as any other value.</p>
+<p>The meaning of programs are centered around evaluating expressions, rather than executing instructions.</p>
+</section>
+<section id="haskell-is-pure" class="slide level1">
+<h1>Haskell is pure</h1>
+<ul>
+<li>No mutation - variables, data structures, all of it is immutable</li>
+<li>Expressions never have side effects</li>
+<li>Calling the same function with the same arguments results in the same output every time</li>
+</ul>
+</section>
+<section id="benefits-of-purity" class="slide level1">
+<h1>Benefits of purity</h1>
+<ul>
+<li>Equational reasoning and refactoring</li>
+<li>Parallelism</li>
+<li>Fewer headaches</li>
+</ul>
+</section>
+<section id="haskell-is-lazy" class="slide level1">
+<h1>Haskell is lazy</h1>
+<p>Expressions are not evaluated until their results are needed</p>
+<p>This is something you can do in finite time:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span>
+  p <span class="fu">=</span> primes
+  doubledPrimes <span class="fu">=</span> map (<span class="fu">*</span> <span class="dv">2</span>) p
+<span class="kw">in</span>
+  take <span class="dv">10</span> doubledPrimes</code></pre>
+</section>
+<section class="slide level1">
+
+<p>Actually takes no time at all.</p>
+</section>
+<section class="slide level1">
+
+<p>This takes a finite amount of time:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span>
+  p <span class="fu">=</span> primes
+  doubledPrimes <span class="fu">=</span> map (<span class="fu">*</span> <span class="dv">2</span>) p
+  first10DoubledPrimes <span class="fu">=</span> take <span class="dv">10</span> doubledPrimes
+<span class="kw">in</span>
+  print first10DoubledPrimes</code></pre>
+</section>
+<section id="benefits-of-laziness" class="slide level1">
+<h1>Benefits of laziness</h1>
+<ul>
+<li>Easy to define new control structures</li>
+<li>Can define and work with infinite data structures</li>
+<li>Enables more composition and reuse</li>
+<li><em>Although</em>, reasoning about time and space usage is pretty different</li>
+</ul>
+</section>
+<section id="statically-typed" class="slide level1">
+<h1>Statically typed</h1>
+<ul>
+<li>Every expression has a type
+<ul>
+<li>Although you don't have to... keystroke... them all</li>
+</ul></li>
+<li>All types are checked at compile-time</li>
+<li>Programs with type errors will not compile
+<ul>
+<li>The error was going to bite you anyway</li>
+<li>Eat your greens and fix it now</li>
+</ul></li>
+</ul>
+</section>
+<section id="themes-of-the-course" class="slide level1">
+<h1>Themes of the course</h1>
+<ul>
+<li>Types</li>
+<li>Abstraction</li>
+<li>Wholemeal Programming</li>
+</ul>
+</section>
+<section id="types" class="slide level1">
+<h1>Types</h1>
+<ul>
+<li>Not annoying (modulo C++ and Java)</li>
+<li>Help clarify thinking and express program structure</li>
+<li>Serve as a form of documentation</li>
+<li>Turn run-time errors into compile-time errors</li>
+</ul>
+</section>
+<section id="abstraction" class="slide level1">
+<h1>Abstraction</h1>
+<ul>
+<li>Don't repeat yourself</li>
+<li>Parametric polymorphism, higher-order functions and typeclasses help with this.</li>
+</ul>
+</section>
+<section id="wholemeal-programming" class="slide level1">
+<h1>Wholemeal Programming</h1>
+<ul>
+<li>Think big</li>
+<li>Solve for a general problem, transform into a specific one
+<ul>
+<li>Solve for a graph instead of a path</li>
+</ul></li>
+<li>Offers new perspectives</li>
+<li>Good for re-use, accreting expressive power</li>
+</ul>
+</section>
+<section id="declarations-and-variables" class="slide level1">
+<h1>Declarations and Variables</h1>
+<p>This is some Haskell code</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">x ::</span> <span class="dt">Int</span>
+x <span class="fu">=</span> <span class="dv">3</span></code></pre>
+<p>declaring that <code>x</code> is a variables of type <code>Int</code> with value <code>3</code>.</p>
+</section>
+<section class="slide level1">
+
+<p>This is an error</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">x <span class="fu">=</span> <span class="dv">4</span></code></pre>
+<p>since <code>x</code> already has a value.</p>
+</section>
+<section class="slide level1">
+
+<p>Variables are not mutable boxes.</p>
+<p><code>=</code> is not assignment.</p>
+<p><code>=</code> is a definition.</p>
+</section>
+<section id="basic-types" class="slide level1">
+<h1>Basic Types</h1>
+</section>
+<section id="integers" class="slide level1">
+<h1>Integers</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Machine sized integer</span>
+<span class="co">-- (everything after &#39;--&#39; is a comment)</span>
+<span class="ot">i ::</span> <span class="dt">Int</span>
+i <span class="fu">=</span> <span class="dv">5</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Arbitrary precision integers</span>
+<span class="ot">n ::</span> <span class="dt">Integer</span>
+n <span class="fu">=</span> <span class="dv">12345678909876543211234567890987654321</span></code></pre>
+</section>
+<section id="floating-point" class="slide level1">
+<h1>Floating point</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- double precision floating point</span>
+<span class="ot">d ::</span> <span class="dt">Double</span>
+d <span class="fu">=</span> <span class="dv">4</span><span class="fu">.</span><span class="dv">567</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- single precision floating point</span>
+<span class="ot">f ::</span> <span class="dt">Float</span>
+f <span class="fu">=</span> <span class="dv">4</span><span class="fu">.</span><span class="dv">567</span></code></pre>
+</section>
+<section id="booleans" class="slide level1">
+<h1>Booleans</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">b1,<span class="ot"> b2 ::</span> <span class="dt">Bool</span>
+b1 <span class="fu">=</span> <span class="dt">False</span>
+b2 <span class="fu">=</span> <span class="dt">True</span></code></pre>
+</section>
+<section id="characters-and-strings" class="slide level1">
+<h1>Characters and Strings</h1>
+<p>Characters are unicode</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">c1,<span class="ot"> c2 ::</span> <span class="dt">Char</span>
+c1 <span class="fu">=</span> <span class="ch">&#39;x&#39;</span>
+c2 <span class="fu">=</span> <span class="ch">&#39;Ø&#39;</span></code></pre>
+<p>Strings are lists of characters with special syntax</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">s ::</span> <span class="dt">String</span>
+s <span class="fu">=</span> <span class="st">&quot;This is a string&quot;</span></code></pre>
+</section>
+<section id="arithmetic" class="slide level1">
+<h1>Arithmetic</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dv">3</span> <span class="fu">+</span> <span class="dv">2</span>       <span class="co">-- addition</span>
+<span class="dv">19</span> <span class="fu">-</span> <span class="dv">27</span>     <span class="co">-- subtraction</span>
+<span class="dv">2</span><span class="fu">.</span><span class="dv">3</span> <span class="fu">*</span> <span class="dv">8</span><span class="fu">.</span><span class="dv">6</span>   <span class="co">-- multiplication</span>
+<span class="dv">8</span><span class="fu">.</span><span class="dv">7</span> <span class="fu">/</span> <span class="dv">3</span><span class="fu">.</span><span class="dv">1</span>   <span class="co">-- floating point division</span>
+mod <span class="dv">19</span> <span class="dv">3</span>    <span class="co">-- modulo operator</span>
+<span class="dv">19</span> <span class="ot">`mod`</span> <span class="dv">3</span>  <span class="co">-- infix modulo operator</span>
+div <span class="dv">19</span> <span class="dv">3</span>    <span class="co">-- integral division</span>
+<span class="dv">19</span> <span class="ot">`div`</span> <span class="dv">3</span>  <span class="co">-- infix integral division</span>
+<span class="dv">7</span> <span class="fu">^</span> <span class="dv">2</span>       <span class="co">-- exponentiation</span>
+(<span class="fu">-</span><span class="dv">3</span>) <span class="fu">*</span> (<span class="fu">-</span><span class="dv">7</span>) <span class="co">-- need to put brackets around negative numbers</span></code></pre>
+</section>
+<section id="aside-backticks-and-brackets" class="slide level1">
+<h1>Aside: Backticks and brackets</h1>
+<p>Backticks let us use regular functions like they were infix</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dv">19</span> <span class="ot">`div`</span> <span class="dv">3</span></code></pre>
+<p>Brackets let us use infix functions like they were regular</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="fu">/</span>) <span class="dv">19</span><span class="fu">.</span><span class="dv">0</span> <span class="dv">3</span><span class="fu">.</span><span class="dv">0</span></code></pre>
+</section>
+<section id="types-have-to-match" class="slide level1">
+<h1>Types have to match</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">i ::</span> <span class="dt">Int</span>
+<span class="ot">n ::</span> <span class="dt">Integer</span>
+<span class="ot">d ::</span> <span class="dt">Double</span>
+i <span class="fu">+</span> i <span class="co">-- fine</span>
+i <span class="fu">+</span> n <span class="co">-- compile time error</span>
+i <span class="fu">+</span> d <span class="co">-- compile time error</span></code></pre>
+</section>
+<section id="conversions" class="slide level1">
+<h1>Conversions</h1>
+<p><code>fromIntegral</code> converts from any integral type to any other numeric type</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">i,<span class="ot"> j ::</span> <span class="dt">Int</span>
+i <span class="fu">/</span> j                           <span class="co">-- compile time error</span>
+                                <span class="co">-- (/) is not for integer types</span>
+fromIntegral i <span class="fu">/</span> fromIntegral j <span class="co">-- this is fine</span>
+i <span class="ot">`div`</span> j                       <span class="co">-- this is fine</span></code></pre>
+<p><code>round</code>, <code>floor</code>, <code>ceil</code> convert floating point numbers to integral types</p>
+</section>
+<section id="boolean-logic" class="slide level1">
+<h1>Boolean logic</h1>
+<p>The usual suspects are in play</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">True</span> <span class="fu">&amp;&amp;</span> <span class="dt">False</span>           <span class="co">-- logical and</span>
+not (<span class="dt">False</span> <span class="fu">||</span> <span class="dt">True</span>)     <span class="co">-- logical not, logical or</span>
+<span class="ch">&#39;a&#39;</span> <span class="fu">==</span> <span class="ch">&#39;a&#39;</span>              <span class="co">-- equality</span>
+<span class="dv">16</span> <span class="fu">/=</span> <span class="dv">3</span>                 <span class="co">-- non-equality</span>
+(<span class="dv">5</span> <span class="fu">&gt;</span> <span class="dv">3</span>) <span class="fu">&amp;&amp;</span> (<span class="ch">&#39;p&#39;</span> <span class="fu">&lt;=</span> <span class="ch">&#39;q&#39;</span>) <span class="co">-- comparisons</span></code></pre>
+</section>
+<section id="if-then-else" class="slide level1">
+<h1>If-then-else</h1>
+<p>If-then-else is an expression</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> b <span class="kw">then</span> t <span class="kw">else</span> f</code></pre>
+<p>Both <code>t</code> and <code>f</code> have to have the same type.</p>
+<p>The result is the same type as <code>t</code> and <code>f</code>.</p>
+<p>There is no <code>if</code> without an <code>else</code>.</p>
+<p>Not that common in Haskell.</p>
+</section>
+<section class="slide level1">
+
+<p>Fine:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> even <span class="dv">2</span> 
+    <span class="kw">then</span> <span class="st">&quot;OK&quot;</span>
+    <span class="kw">else</span> <span class="st">&quot;Error: wrong universe&quot;</span> </code></pre>
+</section>
+<section class="slide level1">
+
+<p>Compile error:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> even <span class="dv">2</span> 
+    <span class="kw">then</span> <span class="st">&quot;OK&quot;</span>
+    <span class="kw">else</span> <span class="dv">0</span> </code></pre>
+</section>
+<section class="slide level1">
+
+<p>A beating is imminent:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> <span class="dv">1</span> 
+    <span class="kw">then</span> <span class="st">&quot;This is not C or&quot;</span>
+    <span class="kw">else</span> <span class="st">&quot;Python you demonspawn.&quot;</span></code></pre>
+</section>
+<section id="functions" class="slide level1">
+<h1>Functions</h1>
+</section>
+<section id="function-types" class="slide level1">
+<h1>Function types</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">functionName ::</span> <span class="dt">T1</span> <span class="ot">-&gt;</span> <span class="dt">T2</span> <span class="ot">-&gt;</span> <span class="dt">R</span></code></pre>
+<p>First argument has type <code>T1</code>.</p>
+<p>Second argument has type <code>T2</code>.</p>
+<p>Return type is <code>R</code>.</p>
+</section>
+<section id="using-functions" class="slide level1">
+<h1>Using functions</h1>
+<p>To use a function</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">f ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+f x y z <span class="fu">=</span> x <span class="fu">*</span> y <span class="fu">+</span> z</code></pre>
+<p>List the arguments after the function, separated by spaces</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">f <span class="dv">3</span> <span class="dv">5</span> <span class="dv">2</span></code></pre>
+</section>
+<section id="function-application" class="slide level1">
+<h1>Function application</h1>
+<p>Function application has higher precedence than any infix operator</p>
+</section>
+<section class="slide level1">
+
+<p>This is a mistake</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">f <span class="dv">3</span> n<span class="fu">+</span><span class="dv">1</span> <span class="dv">7</span></code></pre>
+</section>
+<section class="slide level1">
+
+<p>Because it parses as</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">(f <span class="dv">3</span> n) <span class="fu">+</span> (<span class="dv">1</span> <span class="dv">7</span>)</code></pre>
+</section>
+<section class="slide level1">
+
+<p>You should probably write</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">f <span class="dv">3</span> (n<span class="fu">+</span><span class="dv">1</span>) <span class="dv">7</span></code></pre>
+</section>
+<section id="writing-functions" class="slide level1">
+<h1>Writing functions</h1>
+<p>We write functions by cases, based on values.</p>
+<p>Matches are done from top to bottom.</p>
+</section>
+<section class="slide level1">
+
+<p>Let us define a function</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sumtorial ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span>
+sumtorial <span class="dv">0</span> <span class="fu">=</span> <span class="dv">0</span>
+sumtorial n <span class="fu">=</span> n <span class="fu">+</span> sumtorial (n <span class="fu">-</span> <span class="dv">1</span>)</code></pre>
+<p>and work through an example evaluation</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sumtorial <span class="dv">2</span>
+sumtorial <span class="dv">2</span> <span class="fu">=</span> <span class="dv">2</span> <span class="fu">+</span> sumtorial (<span class="dv">2</span> <span class="fu">-</span> <span class="dv">1</span>)
+sumtorial <span class="dv">2</span> <span class="fu">=</span> <span class="dv">2</span> <span class="fu">+</span> sumtorial <span class="dv">1</span>
+
+    sumtorial <span class="dv">1</span> <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> sumtorial (<span class="dv">1</span> <span class="fu">-</span> <span class="dv">1</span>)
+    sumtorial <span class="dv">1</span> <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> sumtorial <span class="dv">0</span>
+
+        sumtorial <span class="dv">0</span> <span class="fu">=</span> <span class="dv">0</span>
+
+    sumtorial <span class="dv">1</span> <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> <span class="dv">0</span> <span class="fu">=</span> <span class="dv">1</span>
+
+sumtorial <span class="dv">2</span> <span class="fu">=</span> <span class="dv">2</span> <span class="fu">+</span> <span class="dv">1</span> <span class="fu">=</span> <span class="dv">3</span></code></pre>
+</section>
+<section id="guards" class="slide level1">
+<h1>Guards</h1>
+<p>We can use guards to break down the choices by <em>boolean expressions</em>.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">hailstone ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span>
+hailstone n
+    <span class="fu">|</span> n <span class="ot">`mod`</span> <span class="dv">2</span> <span class="fu">==</span> <span class="dv">0</span>    <span class="fu">=</span> n <span class="ot">`div`</span> <span class="dv">2</span>
+    <span class="fu">|</span> otherwise         <span class="fu">=</span> <span class="dv">3</span> <span class="fu">*</span> n <span class="fu">+</span> <span class="dv">1</span> </code></pre>
+<p>Guards are matched from top to bottom.</p>
+<p>'otherwise` is the catch-all, just a synonym for True.</p>
+</section>
+<section class="slide level1">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">hailstone <span class="dv">4</span>
+    <span class="fu">|</span> <span class="dv">4</span> <span class="ot">`mod`</span> <span class="dv">2</span> <span class="fu">==</span> <span class="dv">0</span>    <span class="fu">=</span> <span class="dv">4</span> <span class="ot">`div`</span> <span class="dv">2</span> <span class="co">-- &lt;-- condition matches</span>
+    <span class="fu">|</span> otherwise         <span class="fu">=</span> <span class="dv">3</span> <span class="fu">*</span> <span class="dv">4</span> <span class="fu">+</span> <span class="dv">1</span>
+
+hailstone <span class="dv">4</span>             <span class="fu">=</span> <span class="dv">4</span> <span class="ot">`div`</span> <span class="dv">2</span>
+
+hailstone <span class="dv">4</span>             <span class="fu">=</span> <span class="dv">2</span></code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">hailstone <span class="dv">5</span>
+    <span class="fu">|</span> <span class="dv">5</span> <span class="ot">`mod`</span> <span class="dv">2</span> <span class="fu">==</span> <span class="dv">0</span>    <span class="fu">=</span> <span class="dv">5</span> <span class="ot">`div`</span> <span class="dv">2</span>
+    <span class="fu">|</span> otherwise         <span class="fu">=</span> <span class="dv">3</span> <span class="fu">*</span> <span class="dv">5</span> <span class="fu">+</span> <span class="dv">1</span> <span class="co">-- &lt;-- condition matches</span>
+
+hailstone <span class="dv">5</span>             <span class="fu">=</span> <span class="dv">3</span> <span class="fu">*</span> <span class="dv">5</span> <span class="fu">+</span> <span class="dv">1</span>
+
+hailstone <span class="dv">5</span>             <span class="fu">=</span> <span class="dv">16</span></code></pre>
+</section>
+<section id="pairs-and-tuples" class="slide level1">
+<h1>Pairs and tuples</h1>
+<p>Pairs use brackets and a comma for both types and values.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">p ::</span> (<span class="dt">Int</span>, <span class="dt">Char</span>)
+p <span class="fu">=</span> (<span class="dv">3</span>, <span class="ch">&#39;x&#39;</span>)</code></pre>
+<p>We can extract the values with <em>pattern matching</em></p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sumTriple ::</span> (<span class="dt">Int</span>, <span class="dt">Int</span>, <span class="dt">Int</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span>
+sumTriple (x,y,z) <span class="fu">=</span> x <span class="fu">+</span> y <span class="fu">+</span> z</code></pre>
+</section>
+<section id="lists" class="slide level1">
+<h1>Lists</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">nums, range,<span class="ot"> evenRange ::</span> [<span class="dt">Integer</span>]
+nums <span class="fu">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">19</span>]
+range <span class="fu">=</span> [<span class="dv">1</span><span class="fu">..</span><span class="dv">100</span>]
+evenRange <span class="fu">=</span> [<span class="dv">2</span>,<span class="dv">4</span><span class="fu">..</span><span class="dv">100</span>]</code></pre>
+</section>
+<section id="string-are-lists" class="slide level1">
+<h1>String are lists</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">hello1 ::</span> [<span class="dt">Char</span>]
+hello1 <span class="fu">=</span> [<span class="ch">&#39;h&#39;</span>, <span class="ch">&#39;e&#39;</span>, <span class="ch">&#39;l&#39;</span>, <span class="ch">&#39;l&#39;</span>, <span class="ch">&#39;o&#39;</span>]
+
+<span class="ot">hello2 ::</span> <span class="dt">String</span>
+hello2 <span class="fu">=</span> <span class="st">&quot;hello&quot;</span>
+
+helloSame <span class="fu">=</span> hello1 <span class="fu">==</span> hello2</code></pre>
+<p>So all the standard library functions for lists work for processing strings.</p>
+</section>
+<section id="empty-lists" class="slide level1">
+<h1>Empty lists</h1>
+<p>The simplest list is the empty list</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">emptyList <span class="fu">=</span> []</code></pre>
+</section>
+<section id="less-empty-lists" class="slide level1">
+<h1>Less empty lists</h1>
+<p>We build other lists by prepending elements.</p>
+<p>We do this with the <em>cons</em> operator <code>(:)</code></p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- various lists</span>
+<span class="dv">1</span> <span class="fu">:</span> []         <span class="fu">==</span> [<span class="dv">1</span>]
+<span class="dv">1</span> <span class="fu">:</span> (<span class="dv">2</span> <span class="fu">:</span> [])   <span class="fu">==</span> [<span class="dv">1</span>, <span class="dv">2</span>]
+<span class="dv">1</span> <span class="fu">:</span> <span class="dv">2</span> <span class="fu">:</span> <span class="dv">3</span> <span class="fu">:</span> [] <span class="fu">==</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>] <span class="co">-- right associativity helps</span></code></pre>
+</section>
+<section id="functions-can-act-on-lists" class="slide level1">
+<h1>Functions can act on lists</h1>
+<p>Pattern matching can take apart structure.</p>
+<p>A list is either empty, or a value prepended onto another list.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Compute the length of a list of Integers.</span>
+<span class="ot">intListLength ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> <span class="dt">Integer</span>
+intListLength []     <span class="fu">=</span> undefined
+intListLength (x<span class="fu">:</span>xs) <span class="fu">=</span> undefined</code></pre>
+</section>
+<section class="slide level1">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Compute the length of a list of Integers.</span>
+<span class="ot">intListLength ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> <span class="dt">Integer</span>
+intListLength []     <span class="fu">=</span> <span class="dv">0</span>
+intListLength (_<span class="fu">:</span>xs) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> intListLength xs</code></pre>
+</section>
+<section class="slide level1">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">intListLength [<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>]
+intListLength (<span class="dv">5</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">15</span><span class="fu">:</span> [])
+intListLength (_ <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">15</span><span class="fu">:</span> []) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> intListLength (<span class="dv">10</span> <span class="fu">:</span> <span class="dv">15</span> <span class="fu">:</span> [])
+
+    intListLength (<span class="dv">10</span> <span class="fu">:</span> <span class="dv">15</span> <span class="fu">:</span> []) 
+    intListLength (_ <span class="fu">:</span> <span class="dv">15</span> <span class="fu">:</span> []) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> intListLength (<span class="dv">15</span> <span class="fu">:</span> [])
+
+        intListLength (<span class="dv">15</span> <span class="fu">:</span> [])
+        intListLength (_ <span class="fu">:</span> []) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> intListLength []
+
+            intListLength [] <span class="fu">=</span> <span class="dv">0</span>
+
+        intListLength (_ <span class="fu">:</span> []) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> <span class="dv">0</span> <span class="fu">=</span> <span class="dv">1</span>
+
+    intListLength (_ <span class="fu">:</span> <span class="dv">15</span> <span class="fu">:</span> []) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> <span class="dv">1</span> <span class="fu">=</span> <span class="dv">2</span>
+
+intListLength (_ <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">15</span><span class="fu">:</span> []) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> <span class="dv">2</span> <span class="fu">=</span> <span class="dv">3</span></code></pre>
+</section>
+<section id="functions-can-produce-lists" class="slide level1">
+<h1>Functions can produce lists</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">hailstoneSeq ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+hailstoneSeq <span class="dv">1</span> <span class="fu">=</span> [<span class="dv">1</span>]
+hailstoneSeq n <span class="fu">=</span> n <span class="fu">:</span> hailstoneSeq (hailstone n)</code></pre>
+</section>
+<section class="slide level1">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">3</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> hailstoneSeq <span class="dv">10</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">10</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> hailstoneSeq <span class="dv">5</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">5</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> hailstoneSeq <span class="dv">16</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">16</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> hailstoneSeq <span class="dv">8</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">8</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> hailstoneSeq <span class="dv">4</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> <span class="dv">4</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">4</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> <span class="dv">4</span> <span class="fu">:</span> hailstoneSeq <span class="dv">2</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> <span class="dv">4</span> <span class="fu">:</span> <span class="dv">2</span> <span class="fu">:</span> hailstoneSeq (hailstone <span class="dv">2</span>)
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> <span class="dv">4</span> <span class="fu">:</span> <span class="dv">2</span> <span class="fu">:</span> hailstoneSeq <span class="dv">1</span>
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> <span class="dv">3</span> <span class="fu">:</span> <span class="dv">10</span> <span class="fu">:</span> <span class="dv">5</span> <span class="fu">:</span> <span class="dv">16</span> <span class="fu">:</span> <span class="dv">8</span> <span class="fu">:</span> <span class="dv">4</span> <span class="fu">:</span> <span class="dv">2</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> []
+hailstoneSeq <span class="dv">3</span> <span class="fu">=</span> [<span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">16</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>]</code></pre>
+</section>
+<section id="nested-patterns" class="slide level1">
+<h1>Nested patterns</h1>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sumEveryTwo ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+sumEveryTwo []         <span class="fu">=</span> []     <span class="co">-- Do nothing to the empty list</span>
+sumEveryTwo (x<span class="fu">:</span>[])     <span class="fu">=</span> [x]    <span class="co">-- Do nothing to lists with a single element</span>
+sumEveryTwo (x<span class="fu">:</span>(y<span class="fu">:</span>zs)) <span class="fu">=</span> (x <span class="fu">+</span> y) <span class="fu">:</span> sumEveryTwo zs</code></pre>
+</section>
+<section class="slide level1">
+
+<p>We can use list literals on the LHS for fixed sized lists</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sumEveryTwo (x<span class="fu">:</span>[])     <span class="fu">=</span> [x]</code></pre>
+<p>becomes</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sumEveryTwo [x]        <span class="fu">=</span> [x]</code></pre>
+</section>
+<section class="slide level1">
+
+<p>We can remove some of the parentheses to clear things up.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sumEveryTwo (x<span class="fu">:</span>(y<span class="fu">:</span>zs)) <span class="fu">=</span> (x <span class="fu">+</span> y) <span class="fu">:</span> sumEveryTwo zs</code></pre>
+<p>becomes</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">sumEveryTwo (x<span class="fu">:</span>y<span class="fu">:</span>zs)   <span class="fu">=</span> (x <span class="fu">+</span> y) <span class="fu">:</span> sumEveryTwo zs</code></pre>
+</section>
+<section class="slide level1">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sumEveryTwo ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+sumEveryTwo []       <span class="fu">=</span> []
+sumEveryTwo [x]      <span class="fu">=</span> [x]
+sumEveryTwo (x<span class="fu">:</span>y<span class="fu">:</span>zs) <span class="fu">=</span> (x <span class="fu">+</span> y) <span class="fu">:</span> sumEveryTwo zs</code></pre>
+</section>
+<section class="slide level1">
+
+<p>Pairs inside lists work as well:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sumPairs ::</span> [(<span class="dt">Integer</span>, <span class="dt">Integer</span>)] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
+sumPairs []           <span class="fu">=</span> []
+sumPairs ((x,y) <span class="fu">:</span> zs) <span class="fu">=</span> x <span class="fu">+</span> y <span class="fu">:</span> sumPairs zs</code></pre>
+</section>
+<section id="combining-functions" class="slide level1">
+<h1>Combining functions</h1>
+<p>Build solutions from other functions</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- The number of hailstone steps needed to reach 1 from a starting</span>
+<span class="co">-- number.</span>
+<span class="ot">hailstoneLen ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span>
+hailstoneLen n <span class="fu">=</span> intListLength (hailstoneSeq n) <span class="fu">-</span> <span class="dv">1</span></code></pre>
+<p>Can be more efficient than it appears, thanks to laziness.</p>
+</section>
+<section id="error-messages" class="slide level1">
+<h1>Error messages</h1>
+</section>
+<section id="dont-panic" class="slide level1">
+<h1>Don't panic</h1>
+</section>
+<section class="slide level1">
+
+<pre><code>Prelude&gt; &#39;x&#39; ++ &quot;foo&quot;
+
+&lt;interactive&gt;:1:1:
+    Couldn&#39;t match expected type `[a0]&#39; with actual type `Char&#39;
+    In the first argument of `(++)&#39;, namely &#39;x&#39;
+    In the expression: &#39;x&#39; ++ &quot;foo&quot;
+    In an equation for `it&#39;: it = &#39;x&#39; ++ &quot;foo&quot;</code></pre>
+</section>
+<section id="homework" class="slide level1">
+<h1>Homework</h1>
+<ul>
+<li>Install the Haskell Platform</li>
+<li>Read the notes, then do the homework</li>
+<li>For the first lecture, you're not meant to use anything not mentioned in the notes</li>
+</ul>
+</section>
+<section id="ghci" class="slide level1">
+<h1>GHCi</h1>
+<ul>
+<li><code>:cd dir</code> to change directory</li>
+<li><code>:l filename</code> to load a module</li>
+<li><code>:r</code> to reload modules</li>
+<li><code>:t expression</code> to get type information</li>
+<li><code>:i name</code> to get general information</li>
+</ul>
+</section>
+<section id="credit-card-validation" class="slide level1">
+<h1>Credit Card Validation</h1>
+<ul>
+<li>broken down into lots of little functions</li>
+<li>think about the recursive parts</li>
+</ul>
+</section>
+<section id="towers-of-hanoi" class="slide level1">
+<h1>Towers of Hanoi</h1>
+<ul>
+<li>this one can be done in one function</li>
+<li>the recursive part is key</li>
+</ul>
+</section>
+<section id="links" class="slide level1">
+<h1>Links</h1>
+<ul>
+<li>http://www.seas.upenn.edu/~cis194/lectures.html</li>
+<li>Google: yorgey haskell lectures</li>
+<li>Contact me via BFPG for my email address for homework feedback</li>
+</ul>
+</section>
+<section id="next-month-in-the-yorgey-lectures..." class="slide level1">
+<h1>Next month, in the Yorgey Lectures...</h1>
+<ul>
+<li>Algebraic Data Types</li>
+<li>More pattern matching</li>
+<li>Case expressions</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.min.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+  </body>
+</html>
